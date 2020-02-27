@@ -45,14 +45,18 @@
           lang = options.langInfo;
       var cleanText = function (txt, nlO) {
         var out = txt;
-        if (!options.cleaner.keepClasses) {
+        /*
+                if (!options.cleaner.keepClasses) {
           var sS = /(\n|\r| class=(")?Mso[a-zA-Z]+(")?)/g;
              out = txt.replace(sS, ' ');
         }
         var nL = /(\n)+/g;
            out = out.replace(nL, nlO);
+         */
+
         if (options.cleaner.keepHtml) {
-          var cS = new RegExp('<!--(.*?)-->', 'gi');
+        /*
+                var cS = new RegExp('<!--(.*?)-->', 'gi');
              out = out.replace(cS, '');
           var tS = new RegExp('<(/)*(meta|link|\\?xml:|st1:|o:|font)(.*?)>', 'gi');
              out = out.replace(tS, '');
@@ -79,6 +83,8 @@
                aS = new RegExp(' ' + bA[ii] + '[=0-9a-z]', 'gi');
                out = out.replace(aS, '');
           }
+         */ 
+         out = out.replace(/(?:\r\n|\r|\n)/g, '<br>');
         }
 
         return out;
@@ -164,7 +170,8 @@
             if (msie)
               var text = window.clipboardData.getData("Text");
             else
-              var text = e.originalEvent.clipboardData.getData(options.cleaner.keepHtml ? 'text/html' : 'text/plain');
+            var text = e.originalEvent.clipboardData.getData('text/plain');
+            //var text = e.originalEvent.clipboardData.getData(options.cleaner.keepHtml ? 'text/html' : 'text/plain');
             if (text) {
               if (msie || ffox)
                 setTimeout(function(){$note.summernote('pasteHTML', cleanText(text, options.cleaner.newline));}, 1);
