@@ -182,6 +182,15 @@
               else
                 $editor.find('.note-resizebar').append('<div class="summernote-cleanerAlert alert alert-success" style="' + options.cleaner.notStyle + '">' + lang.cleaner.not + '</div>');
             }
+            else {
+              if (msie) {
+                  var items = window.clipboardData.files;
+                  if (items[0].type.indexOf("image") !== -1) {
+                      var url_src = URL.createObjectURL(items[0]);
+                      setTimeout(function () { $note.summernote('pasteHTML', "<img src='" + url_src + "' />"); }, 1);
+                  }
+              }
+            }
           }
         }
       }
